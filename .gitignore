@@ -1,0 +1,32 @@
+# 构建/运行产物与本地状态
+artifacts/
+backups/
+project/
+__pycache__/
+*.pyc
+
+# 日志与本地运行时数据
+*.log
+sms_seen.json
+sms_notify.log
+
+# 本地二进制与打包产物
+tools/*.exe
+client/dist/
+client/*.exe
+
+# 编辑器 / 系统
+.DS_Store
+Thumbs.db
+*.swp
+
+# Python 虚拟环境
+venv/
+.venv/
+
+# 本地部署密钥（不要提交）
+.env
+tools/deploy.cfg
+
+# 工具/代理内部目录
+.codebuddy/

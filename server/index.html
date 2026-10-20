@@ -1,0 +1,1907 @@
+<!doctype html>
+<html lang="zh-CN" class="mdui-theme-auto">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f2f2f7">
+<title>信息</title>
+<link rel="stylesheet" href="vendor/mdui.css">
+<link rel="stylesheet" href="vendor/misans/misans.css">
+<link rel="stylesheet" href="vendor/icon.css">
+<style>
+
+:root{
+  
+  --in-bubble:#ffffff;
+  
+  --mdui-color-primary:30,142,62;
+  --mdui-color-on-primary:255,255,255;
+  --mdui-color-primary-container:206,242,220;
+  --mdui-color-on-primary-container:0,50,24;
+}
+html.mdui-theme-dark{
+  --in-bubble:#2f3034;
+  --mdui-color-primary:81,217,141;
+  --mdui-color-on-primary:0,27,17;
+  --mdui-color-primary-container:0,63,41;
+  --mdui-color-on-primary-container:121,231,166;
+}
+
+
+@media (prefers-color-scheme: dark){
+  :root:not(.mdui-theme-light){
+    --in-bubble:#2f3034;
+    --mdui-color-primary:81,217,141;
+    --mdui-color-on-primary:0,27,17;
+    --mdui-color-primary-container:0,63,41;
+    --mdui-color-on-primary-container:121,231,166;
+  }
+}
+
+html,body{height:100%}
+body{
+  margin:0;
+  overflow:hidden;
+  display:flex;flex-direction:column;
+  background:rgb(var(--mdui-color-background));
+  color:rgb(var(--mdui-color-on-background));
+  
+  font-family:"MiSans",Roboto,"Google Sans","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  font-size:15px;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+.grow{flex:1;min-width:0}
+[hidden]{display:none !important}   
+
+.mdui-button-icon,.mdui-top-app-bar,.mdui-top-app-bar-title,.mdui-top-app-bar-section,
+.mdui-fab,.mdui-icon,.mdui-text-field,.mdui-menu,.mdui-menu-item,.mdui-divider,
+.mdui-dialog,.mdui-select,.mdui-checkbox,.mdui-switch,.mdui-chip,.mdui-list-item,
+mdui-button,mdui-button-icon,mdui-top-app-bar,mdui-top-app-bar-title,
+mdui-fab,mdui-text-field,mdui-menu,mdui-menu-item,mdui-divider,
+mdui-dialog,mdui-select,mdui-checkbox,mdui-switch,mdui-chip,mdui-list-item{
+  font-family:inherit;
+}
+
+
+
+.app{
+  flex:1;display:flex;min-height:0;overflow:hidden;
+  background:var(--chat-bg);
+}
+
+
+.pane-list{
+  position:relative;
+  width:372px;flex:none;min-width:0;min-height:0;
+  display:flex;flex-direction:column;
+  
+  background:rgb(var(--mdui-color-surface)/.62);
+  -webkit-backdrop-filter:blur(14px) saturate(1.15);
+  backdrop-filter:blur(14px) saturate(1.15);
+  
+  border-right:1px solid rgb(var(--mdui-color-outline-variant)/.5);
+  z-index:1;
+}
+
+.dev-card{
+  flex:none;display:flex;align-items:center;gap:10px;
+  margin:0 14px 8px;padding:9px 12px;
+  border-radius:14px;
+  background:rgb(var(--mdui-color-surface-container-low)/.7);
+  border:1px solid rgb(var(--mdui-color-outline-variant)/.5);
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+}
+.dev-dot{
+  width:9px;height:9px;border-radius:50%;flex:none;
+  background:rgb(var(--mdui-color-outline));
+  transition:background var(--mdui-motion-duration-short4) var(--mdui-motion-easing-standard);
+}
+.dev-dot.on{background:rgb(var(--mdui-color-primary))}
+.dev-dot.warn{background:rgb(var(--mdui-color-tertiary))}
+.dev-dot.off{background:rgb(var(--mdui-color-error))}
+.dev-meta{flex:1;min-width:0}
+.dev-name{font-size:13px;font-weight:500;color:rgb(var(--mdui-color-on-surface));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dev-sub{font-size:11px;color:rgb(var(--mdui-color-on-surface-variant));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dev-stat{flex:none;font-size:11px;color:rgb(var(--mdui-color-on-surface-variant));font-variant-numeric:tabular-nums}
+
+.list-top{
+  flex:none;display:flex;align-items:center;gap:2px;
+  height:48px;padding:0 4px 0 6px;
+}
+.list-top mdui-button-icon{margin-left:2px}
+
+
+.list-head{
+  flex:none;display:flex;align-items:center;
+  padding:2px 22px 8px;min-height:44px;
+}
+#appTitle{
+  font-size:var(--mdui-typescale-headline-small-size);
+  font-weight:var(--mdui-typescale-headline-small-weight);
+  line-height:var(--mdui-typescale-headline-small-line-height);
+  letter-spacing:var(--mdui-typescale-headline-small-tracking);
+  color:rgb(var(--mdui-color-on-surface));
+}
+.list-head.searching{padding:2px 8px 8px 16px;gap:4px}
+.list-head.searching #appTitle{display:none}
+#tfSearch{width:100%}
+
+
+mdui-chip-set{display:block;flex:none;padding:0 18px 10px}
+mdui-chip-set mdui-chip{
+  --mdui-shape-corner:var(--mdui-shape-corner-small);
+  --mdui-chip-container-height:32px;
+}
+mdui-chip-set mdui-chip[selected]{
+  background:rgb(var(--mdui-color-secondary-container));
+  color:rgb(var(--mdui-color-on-secondary-container));
+}
+
+
+
+
+.ctx-anchor{position:fixed;top:0;left:0;width:1px;height:1px;pointer-events:none}
+
+.ctx-target{outline:2px solid rgb(var(--mdui-color-primary));outline-offset:-2px}
+
+.conv-list{-webkit-touch-callout:none}
+
+mdui-menu-item[hidden]{display:none}
+.conv-list{
+  flex:1;min-height:0;overflow-y:auto;
+  overscroll-behavior:contain;
+  padding-bottom:14px;                
+  
+  background:transparent;
+  
+  border-top:1px solid rgb(var(--mdui-color-outline-variant)/.45);
+}
+.conv{
+  display:flex;align-items:center;gap:14px;
+  padding:12px 22px 12px 18px;
+  min-height:76px;cursor:pointer;
+  position:relative;
+  
+  transition:background-color var(--mdui-motion-duration-short4)
+                             var(--mdui-motion-easing-standard);
+}
+.conv:hover{background:rgb(var(--mdui-color-surface-container-low))}
+
+.conv + .conv{border-top:1px solid rgb(var(--mdui-color-outline-variant))}
+
+.conv.sel{
+  background:rgb(var(--mdui-color-surface-container-highest));
+}
+
+.conv.sel + .conv{border-top-color:transparent}
+.conv.sel::after{
+  content:"";position:absolute;left:0;right:0;top:0;
+  border-top:1px solid rgb(var(--mdui-color-primary));
+}
+
+.conv.sel::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:4px;
+  background:rgb(var(--mdui-color-primary));
+}
+.av{
+  flex:none;width:44px;height:44px;border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+  color:#fff;font-size:15px;font-weight:500;letter-spacing:.5px;
+  overflow:hidden;user-select:none;
+  background:rgb(var(--mdui-color-primary));
+  
+  box-shadow:0 2px 6px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.28);
+}
+.av.mdui-icon{font-size:22px}
+.cv-body{flex:1;min-width:0}
+.cv-row1{display:flex;align-items:baseline;gap:8px}
+.cv-name{
+  flex:1;min-width:0;
+  font-size:16px;line-height:22px;
+  color:rgb(var(--mdui-color-on-surface-variant));
+  font-weight:400;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.cv-time{
+  flex:none;font-size:12px;line-height:16px;
+  color:rgb(var(--mdui-color-on-surface-variant));
+  font-variant-numeric:tabular-nums;
+}
+.cv-row2{
+  display:flex;align-items:center;gap:8px;
+  font-size:14px;line-height:20px;
+  color:rgb(var(--mdui-color-on-surface-variant));
+}
+.cv-pv{
+  flex:1;min-width:0;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.cv-state{flex:none;display:inline-flex;align-items:center;gap:3px;font-size:12px;opacity:.85}
+.cv-unread .cv-name{font-weight:700;color:rgb(var(--mdui-color-on-surface))}
+.cv-unread .cv-row2{color:rgb(var(--mdui-color-on-surface-variant))}
+
+
+#btnCompose{
+  color:rgb(var(--mdui-color-on-surface));
+  
+  margin-left:4px;
+}
+
+
+#btnCompose2{display:none}
+
+
+.pane-detail{
+  flex:1;min-width:0;min-height:0;
+  display:flex;flex-direction:column;
+  background:transparent;      
+}
+
+:root{--chat-bg:
+  radial-gradient(1100px 620px at 8% -10%, #dfe7fd 0%, rgba(223,231,253,0) 62%),
+  radial-gradient(900px 520px at 96% 108%, #f2e2fb 0%, rgba(242,226,251,0) 58%),
+  linear-gradient(178deg,#eef0f9 0%,#f6f3fb 100%);}
+
+html.mdui-theme-dark{ --chat-bg:
+  radial-gradient(1100px 620px at 8% -10%, #23293c 0%, rgba(35,41,60,0) 62%),
+  radial-gradient(900px 520px at 96% 108%, #2c1f36 0%, rgba(44,31,54,0) 58%),
+  linear-gradient(178deg,#191a20 0%,#1c1b22 100%);
+}
+@media (prefers-color-scheme: dark){ :root:not(.mdui-theme-light){ --chat-bg:
+  radial-gradient(1100px 620px at 8% -10%, #23293c 0%, rgba(35,41,60,0) 62%),
+  radial-gradient(900px 520px at 96% 108%, #2c1f36 0%, rgba(44,31,54,0) 58%),
+  linear-gradient(178deg,#191a20 0%,#1c1b22 100%);
+} }
+
+
+mdui-top-app-bar#chatbar{
+  position:relative !important;
+  left:auto !important;right:auto !important;
+  top:auto !important;
+  width:100%;max-width:100%;
+  z-index:auto;
+  
+  flex:none;
+  background:rgb(var(--mdui-color-surface)/.55);
+  -webkit-backdrop-filter:blur(14px) saturate(1.15);
+  backdrop-filter:blur(14px) saturate(1.15);
+  box-shadow:none !important;   
+  --mdui-top-app-bar-container-color:transparent;
+}
+
+.list-top,.list-head{
+  background:rgb(var(--mdui-color-surface)/.55);
+  -webkit-backdrop-filter:blur(14px) saturate(1.15);
+  backdrop-filter:blur(14px) saturate(1.15);
+  box-shadow:none;
+}
+#chatbar #dtTitle{
+  font-size:var(--mdui-typescale-title-medium-size);
+  font-weight:var(--mdui-typescale-title-medium-weight);
+  color:rgb(var(--mdui-color-on-surface));
+  letter-spacing:0;
+}
+.dt-av{
+  flex:none;width:40px;height:40px;border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+  color:#fff;font-size:14px;font-weight:500;
+  background:rgb(var(--mdui-color-primary));
+}
+#btnBack{display:none}
+
+
+.msgs{
+  flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;
+  display:flex;flex-direction:column;gap:10px;
+  padding:16px 24px 6px;
+  scrollbar-width:thin;
+}
+.day{
+  align-self:center;margin:12px 0 8px;
+  padding:3px 14px;border-radius:999px;
+  font-size:11px;line-height:16px;font-weight:500;letter-spacing:.2px;
+  color:rgb(var(--mdui-color-on-surface-variant));
+  
+  background:rgba(128,128,128,.16);
+  -webkit-backdrop-filter:blur(4px);
+  backdrop-filter:blur(4px);
+  box-shadow:0 1px 2px rgba(0,0,0,.06);
+}
+.bubble{
+  max-width:min(78%,560px);
+  padding:10px 16px 7px;
+  font-size:15px;line-height:22px;
+  white-space:pre-wrap;word-break:break-word;
+  border-radius:var(--mdui-shape-corner-large);
+  
+  box-shadow:0 1px 1px rgba(0,0,0,.05),
+             0 2px 8px rgba(0,0,0,.09),
+             inset 0 1px 0 rgba(255,255,255,.18);
+}
+
+.bubble.in{
+  align-self:flex-start;
+  background:var(--in-bubble);
+  color:rgb(var(--mdui-color-on-surface));
+  border-radius:4px 20px 20px 4px;
+}
+
+.bubble.out{
+  align-self:flex-end;
+  background:rgb(var(--mdui-color-primary));
+  color:rgb(var(--mdui-color-on-primary));
+  border-radius:20px 4px 4px 20px;
+  box-shadow:0 1px 1px rgba(0,0,0,.08),
+             0 2px 10px rgba(0,0,0,.16),
+             inset 0 1px 0 rgba(255,255,255,.24);
+}
+.bubble.pending{opacity:.62}
+.bubble.sys{
+  align-self:center;max-width:90%;
+  background:transparent;color:rgb(var(--mdui-color-on-surface-variant));
+  font-size:13px;line-height:20px;box-shadow:none;
+  border-radius:var(--mdui-shape-corner-large);
+  background-color:rgb(var(--mdui-color-surface-container));
+}
+.bubble .tm{
+  display:block;margin-top:2px;
+  font-size:11px;line-height:16px;
+  text-align:right;opacity:.62;
+  font-variant-numeric:tabular-nums;
+}
+
+.bubble .otp{font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:1px}
+.bubble.sys mdui-icon{vertical-align:-3px;margin-right:4px;font-size:16px;width:16px;height:16px}
+
+
+.compose{
+  flex:none;
+  padding:8px 20px calc(12px + env(safe-area-inset-bottom));
+}
+.msg-bar{
+  display:flex;align-items:flex-end;gap:4px;
+  min-height:48px;
+  padding:2px 6px 2px 2px;
+  border-radius:var(--mdui-shape-corner-full);
+  
+  background:rgba(255,255,255,.1);
+  -webkit-backdrop-filter:blur(6px);
+  backdrop-filter:blur(6px);
+  
+  box-shadow:0 2px 10px rgba(0,0,0,.16),
+             0 0 0 1px rgba(255,255,255,.1),
+             inset 0 1px 0 rgba(255,255,255,.3);
+}
+
+html.mdui-theme-light .msg-bar,
+html.mdui-theme-auto.light .msg-bar{
+  background:rgba(32,34,38,.06);
+  box-shadow:0 2px 10px rgba(0,0,0,.12),
+             0 0 0 1px rgba(32,34,38,.07),
+             inset 0 1px 0 rgba(255,255,255,.6);
+}
+.msg-bar .bar-btn{
+  flex:none;width:44px;height:44px;
+}
+#btnAttach,.bar-emo{color:rgb(var(--mdui-color-primary))}
+
+.no-compose .msg-bar{display:none}
+#tfBody{
+  flex:1;min-width:0;
+  box-sizing:border-box;
+  height:44px;min-height:44px;
+  padding:11px 10px;                  
+  border:0;outline:0;background:transparent;
+  color:rgb(var(--mdui-color-on-surface));
+  font:inherit;font-size:16px;line-height:22px;
+  resize:none;overflow-y:auto;
+  max-height:154px;
+}
+#tfBody::placeholder{color:rgb(var(--mdui-color-on-surface-variant));opacity:.9}
+#btnSend{
+  position:relative;overflow:hidden;              
+  flex:none;width:44px;height:44px;
+  margin:0;border:0;padding:0;
+  border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:rgb(var(--mdui-color-outline-variant));
+  color:rgb(var(--mdui-color-on-surface-variant));
+  cursor:pointer;
+  transition:background-color var(--mdui-motion-duration-short4)
+                             var(--mdui-motion-easing-standard),
+             color var(--mdui-motion-duration-short4)
+                   var(--mdui-motion-easing-standard);
+}
+
+#btnSend::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;
+  background:currentColor;opacity:0;pointer-events:none;
+  transition:opacity var(--mdui-motion-duration-short4)
+                     var(--mdui-motion-easing-standard);
+}
+#btnSend:hover::after{opacity:.08}
+#btnSend:focus-visible::after{opacity:.12}
+#btnSend:active::after{opacity:.12}
+#btnSend.on{
+  background:rgb(var(--mdui-color-primary));
+  color:rgb(var(--mdui-color-on-primary));
+}
+#btnSend mdui-icon{font-size:22px;width:22px;height:22px}
+
+
+.empty{
+  flex:1;min-height:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:8px;padding:40px;text-align:center;
+  color:rgb(var(--mdui-color-on-surface-variant));
+}
+.empty{margin:auto;padding:0}
+
+.empty-card{
+  display:flex;flex-direction:column;align-items:center;
+  gap:10px;padding:36px 48px;
+  border-radius:var(--mdui-shape-corner-extra-large);
+  background:rgba(128,128,128,.1);
+  -webkit-backdrop-filter:blur(10px);
+  backdrop-filter:blur(10px);
+  box-shadow:0 8px 32px rgba(0,0,0,.12),
+             inset 0 1px 0 rgba(255,255,255,.22);
+}
+.empty-card mdui-icon{font-size:52px;width:52px;height:52px;opacity:.5}
+.empty-card .t{font-size:16px;font-weight:500}
+.empty-card .s{font-size:14px;opacity:.85;max-width:320px;line-height:20px}
+
+
+.drawer-set{padding:16px;display:flex;flex-direction:column;gap:16px}
+.drawer-set > mdui-switch,
+.drawer-set > mdui-select{width:100%}
+.drawer-set > mdui-button{width:100%}
+.drawer-label{
+  display:block;margin-bottom:6px;
+  font-size:var(--mdui-typescale-label-medium-size);
+  letter-spacing:.06em;text-transform:uppercase;
+  color:rgb(var(--mdui-color-on-surface-variant));
+}
+
+.dlg-note{
+  padding:4px 0 14px;color:rgb(var(--mdui-color-on-surface-variant));
+  font-size:var(--mdui-typescale-body-small-size);
+}
+#dlgNew mdui-text-field{width:100%}
+
+
+
+.dbg{
+  position:fixed;left:16px;bottom:16px;display:none;align-items:center;gap:8px;
+  padding:8px 14px;border-radius:var(--mdui-shape-corner-full);
+  background:#3b3b42;color:#f0f0f2;font-size:var(--mdui-typescale-label-medium-size);
+  cursor:pointer;z-index:3000;user-select:none;
+  box-shadow:var(--mdui-elevation-level2);
+}
+.dbg.on{display:inline-flex}
+.dbg:hover{background:rgb(var(--mdui-color-secondary-container));color:rgb(var(--mdui-color-on-secondary-container))}
+.dbg .dot{width:8px;height:8px;border-radius:50%;flex:none;background:#f44336}
+.dbg .hint{opacity:.7;font-size:var(--mdui-typescale-label-small-size);white-space:nowrap}
+
+
+@media (max-width:599px){
+  .pane-list{width:100%;border-right:0}
+  body.on-thread .pane-list{display:none}
+  body:not(.on-thread) .pane-detail{display:none}
+  #btnBack{display:inline-flex}
+  .conv-list{padding-bottom:12px}
+  .msgs{padding:12px 14px 2px}
+  .compose{padding:8px 12px calc(12px + env(safe-area-inset-bottom))}
+  .conv{padding:12px 16px;gap:12px;min-height:76px}
+  .msg-bar{min-height:48px}
+  
+  body.no-compose .msg-bar{display:none}
+  #btnCompose2{display:inline-flex}
+  
+  #btnEmoji{display:none}
+  .msg-bar{gap:2px}
+}
+
+@media (min-width:600px){
+  body.no-compose .msg-bar{display:flex}
+}
+
+@media (min-width:1024px){
+  .pane-list{width:400px}
+}
+@media (min-width:1440px){
+  .pane-list{width:420px}
+}
+
+
+.ctrl-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:4px 0 14px}
+.ctrl-grid mdui-button{width:100%;justify-content:center}
+.ctrl-cmd{margin:2px 0 14px}
+.ctrl-log{margin-top:6px;max-height:210px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;overscroll-behavior:contain}
+.ctrl-item{font-size:13px;line-height:18px;padding:8px 12px;border-radius:10px;
+  background:rgb(var(--mdui-color-surface-container-low));
+  border:1px solid rgb(var(--mdui-color-outline-variant));
+  white-space:pre-wrap;word-break:break-word}
+.ctrl-item .meta{font-size:11px;color:rgb(var(--mdui-color-on-surface-variant));margin-bottom:3px}
+.ctrl-item.pending{opacity:.72}
+.ctrl-item .st{font-weight:600;color:rgb(var(--mdui-color-primary))}
+.ctrl-item.done .st{color:rgb(var(--mdui-color-tertiary))}
+</style>
+</head>
+<body>
+
+
+<mdui-dialog id="dlgToken" style="--z-index:4000" headline="需要服务端 token">
+  <div class="dlg-note">首次访问需要填写服务端 token，保存在本机浏览器，之后不再询问。</div>
+  <mdui-text-field id="tfToken" label="token" variant="outlined" style="width:100%"></mdui-text-field>
+  <mdui-button slot="action" variant="text" id="btnTokenCancel">取消</mdui-button>
+  <mdui-button slot="action" variant="text" id="btnTokenOk">保存</mdui-button>
+</mdui-dialog>
+
+<mdui-dialog id="dlgConfirm" style="--z-index:4000" headline="确认" close-on-overlay-click="false">
+  <div id="cfBody" class="dlg-note" style="padding:2px 0 10px"></div>
+  <mdui-button slot="action" variant="text" id="cfNo">取消</mdui-button>
+  
+  <mdui-button slot="action" variant="filled" id="cfYes"
+               style="--mdui-color-primary:146,28,28;--mdui-color-on-primary:255,255,255">确定</mdui-button>
+</mdui-dialog>
+
+
+<mdui-dialog id="dlgNew" style="--z-index:4000" headline="新建短信" close-on-overlay-click="false">
+  <div class="dlg-note">填一个新的接收号码直接发；也可以从左侧点已有会话，输入框就对着它。</div>
+  <mdui-text-field id="tfNewNum" label="接收号码" variant="outlined" style="width:100%"></mdui-text-field>
+  <mdui-text-field id="tfNewBody" label="短信内容" variant="outlined" rows="3" maxlength="500"
+                   style="width:100%"></mdui-text-field>
+  <mdui-button slot="action" variant="text" id="btnNewCancel">取消</mdui-button>
+  <mdui-button slot="action" variant="filled" id="btnNewOk">发送</mdui-button>
+</mdui-dialog>
+
+<mdui-dialog id="dlgApi" style="--z-index:4000" headline="最新短信 API">
+  <div class="dlg-note">
+    GET 即可，<b>不需要 token</b>。返回最新若干条短信（默认 20 条，上限 200）。<br>
+    参数 <code style="font-family:monospace">n</code>=条数、
+    <code style="font-family:monospace">order</code>=<code style="font-family:monospace">asc|desc</code>（默认 desc，新在前）、
+    <code style="font-family:monospace">since</code>=<code style="font-family:monospace">'Y-m-d H:i:s'</code> 只要该时刻之后的。
+  </div>
+  <mdui-text-field id="tfApiUrl" label="接口地址" variant="outlined" style="width:100%"></mdui-text-field>
+  <mdui-button slot="action" variant="text" id="btnApiCopy">复制地址</mdui-button>
+  <mdui-button slot="action" variant="text" id="btnApiClose">关闭</mdui-button>
+</mdui-dialog>
+
+
+<mdui-dialog id="dlgCtrl" style="--z-index:4000" headline="设备控制">
+  <div class="dlg-note">点按钮即下发指令，设备约 60 秒内执行并回显结果（不消耗短信）。</div>
+  <div class="ctrl-grid">
+    <mdui-button variant="outlined" data-cmd="##stat">设备状态</mdui-button>
+    <mdui-button variant="outlined" data-cmd="##net">网络信息</mdui-button>
+    <mdui-button variant="outlined" data-cmd="##volt">电压/温度</mdui-button>
+    <mdui-button variant="outlined" data-cmd="##led##on">指示灯 亮</mdui-button>
+    <mdui-button variant="outlined" data-cmd="##led##off">指示灯 灭</mdui-button>
+    <mdui-button variant="outlined" data-cmd="##led##blink">指示灯 闪</mdui-button>
+    <mdui-button variant="outlined" data-cmd="##loc">基站定位</mdui-button>
+    <mdui-button variant="outlined" data-cmd="##echo##ping">回显测试</mdui-button>
+    <mdui-button variant="outlined" data-cmd="##smsclear">清理短信箱</mdui-button>
+    <mdui-button variant="outlined" data-cmd="##reboot">远程重启</mdui-button>
+  </div>
+  <mdui-text-field id="tfCmd" label="自定义指令（## 开头，如 ##gpio##1##get）" variant="outlined" class="ctrl-cmd"></mdui-text-field>
+  <div class="ctrl-log" id="ctrlLog"></div>
+  <mdui-button slot="action" variant="text" id="btnCtrlClose">关闭</mdui-button>
+  <mdui-button slot="action" variant="filled" id="btnCmdSend">下发</mdui-button>
+</mdui-dialog>
+
+
+<div class="app">
+
+  
+  <aside class="pane-list">
+    <div class="list-top">
+      <mdui-button-icon id="btnNav" icon="menu"></mdui-button-icon>
+      <div class="grow"></div>
+      <mdui-button-icon id="btnSearch" icon="search"></mdui-button-icon>
+      
+      <mdui-button-icon id="btnCompose" icon="edit"></mdui-button-icon>
+      <mdui-button-icon id="btnTheme" icon="dark_mode"></mdui-button-icon>
+      <mdui-tooltip content="设备控制">
+        <mdui-button-icon id="btnCtrl" icon="terminal"></mdui-button-icon>
+      </mdui-tooltip>
+      
+      <mdui-dropdown id="ddMore" trigger="click" placement="bottom-end" stay-open-on-click="false">
+        <mdui-button-icon slot="trigger" id="btnMore" icon="more_vert"></mdui-button-icon>
+        <mdui-menu id="menuMore">
+          <mdui-menu-item id="miRefresh" icon="refresh"    end-text="拉取">立即刷新</mdui-menu-item>
+          <mdui-menu-item id="miCsv"   icon="download"     end-text="全部">导出 CSV</mdui-menu-item>
+          <mdui-menu-item id="miClear" icon="delete_sweep">清空全部</mdui-menu-item>
+          <mdui-menu-item id="miLog"   icon="bug_report"   end-text="控制台">调试日志</mdui-menu-item>
+          <mdui-menu-item id="miApi"   icon="api"          end-text="免 token">最新短信 API</mdui-menu-item>
+        </mdui-menu>
+      </mdui-dropdown>
+    </div>
+
+    <div class="list-head" id="listHead">
+      <mdui-top-app-bar-title id="appTitle">信息</mdui-top-app-bar-title>
+    </div>
+
+    <div class="list-head searching" id="searchHead" hidden>
+      <mdui-text-field id="tfSearch" icon="search" variant="filled" style="width:100%"></mdui-text-field>
+      <mdui-button-icon id="btnSearchClose" icon="close"></mdui-button-icon>
+    </div>
+
+    <mdui-chip-set id="chips">
+      <mdui-chip selectable selected>全部</mdui-chip>
+      <mdui-chip selectable>短信</mdui-chip>
+      <mdui-chip selectable>来电</mdui-chip>
+      <mdui-chip selectable>系统</mdui-chip>
+    </mdui-chip-set>
+
+    
+    <div id="devCard" class="dev-card">
+      <span class="dev-dot" id="devDot"></span>
+      <div class="dev-meta">
+        <div class="dev-name" id="devName">Air780EPM</div>
+        <div class="dev-sub" id="devSub">等待设备心跳…</div>
+      </div>
+      <div class="dev-stat" id="devStat">-- dBm</div>
+    </div>
+
+    <div class="conv-list" id="threadList"></div>
+  </aside>
+
+  
+  <section class="pane-detail">
+    <mdui-top-app-bar id="chatbar" variant="small">
+      <mdui-button-icon id="btnBack" icon="arrow_back"></mdui-button-icon>
+      <div class="dt-av" id="dtAvatar"></div>
+      <mdui-top-app-bar-title id="dtTitle">会话</mdui-top-app-bar-title>
+      <div class="grow"></div>
+      
+      <mdui-button-icon id="btnCompose2" icon="edit"></mdui-button-icon>
+      <mdui-tooltip content="指令短信">
+        <mdui-button-icon id="btnCmd" icon="code"></mdui-button-icon>
+      </mdui-tooltip>
+      <mdui-tooltip content="导出本会话">
+        <mdui-button-icon id="btnExportThread" icon="ios_share"></mdui-button-icon>
+      </mdui-tooltip>
+      <mdui-tooltip content="删除本会话">
+        <mdui-button-icon id="btnDelThread" icon="delete"></mdui-button-icon>
+      </mdui-tooltip>
+    </mdui-top-app-bar>
+
+    <div class="msgs" id="msgs"></div>
+
+    <div class="compose">
+      <div class="msg-bar">
+        <mdui-button-icon id="btnAttach" icon="add" class="bar-btn"></mdui-button-icon>
+        <textarea id="tfBody" rows="1" maxlength="500" placeholder="短信"
+                  autocomplete="off"></textarea>
+        <mdui-button-icon id="btnEmoji" icon="emoji_emotions" class="bar-btn bar-emo"></mdui-button-icon>
+        <button type="button" id="btnSend" aria-label="发送">
+          <mdui-icon name="arrow_upward"></mdui-icon>
+        </button>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+<mdui-navigation-drawer id="drawer" style="--z-index:2000" modal>
+  <mdui-top-app-bar slot="header" variant="small" class="bar-sub" style="--mdui-elevation:0">
+    <mdui-top-app-bar-title>设置</mdui-top-app-bar-title>
+    <div class="grow"></div>
+    <mdui-button-icon icon="close" id="btnDrawerClose"></mdui-button-icon>
+  </mdui-top-app-bar>
+
+  <div class="drawer-set">
+    <div class="set-row">
+      <span class="drawer-label">自动刷新</span>
+      <mdui-switch id="swAuto"></mdui-switch>
+    </div>
+    <div>
+      <span class="drawer-label">刷新间隔</span>
+      <mdui-select id="selInt" variant="outlined" value="15" style="width:100%">
+        <mdui-menu-item value="10">10 秒</mdui-menu-item>
+        <mdui-menu-item value="15">15 秒</mdui-menu-item>
+        <mdui-menu-item value="30">30 秒</mdui-menu-item>
+        <mdui-menu-item value="60">60 秒</mdui-menu-item>
+        <mdui-menu-item value="0">手动</mdui-menu-item>
+      </mdui-select>
+    </div>
+    <div>
+      <span class="drawer-label">主题</span>
+      <mdui-select id="selTheme" variant="outlined" value="auto" style="width:100%">
+        <mdui-menu-item value="auto">跟随系统</mdui-menu-item>
+        <mdui-menu-item value="light">浅色</mdui-menu-item>
+        <mdui-menu-item value="dark">深色</mdui-menu-item>
+      </mdui-select>
+    </div>
+    <mdui-divider></mdui-divider>
+    <mdui-button id="btnExportDrawer" variant="outlined" full-width>导出 CSV（全部）</mdui-button>
+    <mdui-button id="btnClearDrawer" variant="outlined" full-width
+                 style="--mdui-color-primary:146,28,28;--mdui-color-on-primary:255,255,255">清空全部</mdui-button>
+  </div>
+</mdui-navigation-drawer>
+
+<mdui-snackbar id="sb" placement="bottom" style="--z-index:5000" auto-close-delay="2600"></mdui-snackbar>
+
+
+<mdui-dropdown id="ddCtx" style="--z-index:3000">
+  <div id="ctxAnchor" slot="trigger" class="ctx-anchor"></div>
+  <mdui-menu id="menuCtx">
+    <mdui-menu-item id="ctxTitle" disabled>会话</mdui-menu-item>
+    
+    <mdui-menu-item id="ctxConvOpen"     icon="chat"          hidden>打开会话</mdui-menu-item>
+    <mdui-menu-item id="ctxConvCopyNum"  icon="content_copy"  hidden>复制号码</mdui-menu-item>
+    <mdui-menu-item id="ctxConvCopyLast" icon="content_paste" hidden>复制最新一条</mdui-menu-item>
+    <mdui-menu-item id="ctxConvExport"   icon="ios_share"     hidden>导出该会话</mdui-menu-item>
+    
+    <mdui-menu-item id="ctxMsgCopy"      icon="content_copy"  hidden>复制全文</mdui-menu-item>
+    
+    <mdui-menu-item id="ctxMsgCode"      icon="lock"          hidden>复制验证码</mdui-menu-item>
+    <mdui-menu-item id="ctxMsgQuote"     icon="reply"         hidden>引用到输入框</mdui-menu-item>
+    <mdui-divider id="ctxDiv"></mdui-divider>
+    <mdui-menu-item id="ctxConvDel"      icon="delete"        hidden>删除会话</mdui-menu-item>
+    <mdui-menu-item id="ctxMsgDel"       icon="delete"        hidden>删除这条</mdui-menu-item>
+  </mdui-menu>
+</mdui-dropdown>
+
+<div class="dbg" id="dbgBadge" title="点击复制完整日志到剪贴板">
+  <span class="dot"></span>
+  <span id="dbgTxt">错误</span>
+  <span class="hint">点击复制日志</span>
+</div>
+
+<script src="vendor/mdui.global.js"></script>
+<script>
+
+const LOG = (function(){
+  const LS = 'smsui.loglevel';
+  const buf = [];
+  const cap = 400;
+  const c = console || {};
+  const C = {
+    log: c.log.bind(c), warn: c.warn.bind(c), error: c.error.bind(c)
+  };
+  let lv = 0;
+  try{ lv = parseInt(localStorage.getItem(LS), 10) || 0; }catch(e){}
+
+  function redact(s){
+    return String(s)
+      .replace(/([?&]token=)([^&]*)/gi, function(m, p){ return p + '****'; })
+      .replace(/(["']?token["']?\s*[:=]\s*["'])([^"']*)(["'])/gi, function(m, a, b, d){ return a + '****' + d; });
+  }
+  function fmt(a){
+    if (a instanceof Error) return a.stack || (a.name + ': ' + a.message);
+    if (a && a.nodeName) return '<' + a.nodeName.toLowerCase() + '>';
+    return redact(typeof a === 'object' ? JSON.stringify(a) : String(a));
+  }
+  function ts(){
+    const d = new Date(), p = n => String(n).padStart(2, '0');
+    return p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds()) + '.' + String(d.getMilliseconds()).padStart(3, '0');
+  }
+  let n = 0;
+
+  function put(lv, tag, args){
+    const list = Array.isArray(args) ? args : [args];
+    const text = list.map(fmt).join(' ');
+    n++;
+    buf.push({ lv: lv, tag: tag, msg: text, t: Date.now() });
+    if (buf.length > cap) buf.shift();
+
+    const head = '%c' + tag + '%c ' + ts() + ' ' + text;
+    const css = ['color:#888;font-weight:600', 'color:#888'];
+    if (lv === 3) C.error(head, css, 'color:#f44336', '#' + n);
+    else C.log(head, css, 'color:' + (lv === 4 ? '#eab63c' : '#888'), '#' + n);
+
+    paint();
+  }
+
+  function isErr(lv){ return lv >= 3; }
+  function errors(){ return buf.filter(function(x){ return isErr(x.lv); }); }
+
+  function setLevel(nv){
+    if (typeof nv === 'number'){
+      lv = nv;
+      try{ localStorage.setItem(LS, String(nv)); }catch(e){}
+    }
+    return lv;
+  }
+
+  let badgeEl = null, txtEl = null;
+  function paint(){
+    if (!badgeEl) return;
+    const e = errors();
+    if (!e.length){ badgeEl.classList.remove('on'); return; }
+    badgeEl.classList.add('on');
+    if (txtEl) txtEl.textContent = e.length + ' 个错误：' + e[e.length - 1].tag;
+  }
+
+  function dump(){
+    return buf.map(function(x){
+      const d = new Date(x.t), p = v => String(v).padStart(2, '0');
+      return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()) + ' '
+        + p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds())
+        + '  lv' + x.lv + '  [' + x.tag + ']  ' + x.msg;
+    }).join('\n');
+  }
+  function copy(){
+    const text = dump();
+    const done = function(){
+      badgeEl.classList.remove('on');
+      try{ snack('日志已复制到剪贴板'); }catch(e){}
+      LOG.info('日志', ['已复制', buf.length + ' 条']);
+    };
+    try{ navigator.clipboard.writeText(text).then(done, function(){ fallback(text, done); }); }
+    catch(e){ fallback(text, done); }
+    function fallback(t, cb){
+      const ta = document.createElement('textarea');
+      ta.value = t;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try{ document.execCommand('copy'); cb(); }catch(e){}
+      document.body.removeChild(ta);
+    }
+    return text;
+  }
+
+  function hook(){
+    badgeEl = document.getElementById('dbgBadge');
+    txtEl = document.getElementById('dbgTxt');
+    if (badgeEl) badgeEl.addEventListener('click', copy);
+
+    window.addEventListener('error', function(ev){
+      const src = ev.target;
+      if (src && src !== window && src.tagName){
+        put(3, '资源', ['加载失败 ' + src.tagName.toLowerCase(), src.src || src.href || '']);
+        return;
+      }
+      put(3, '异常', [ev.error ? (ev.error.stack || ev.message) : ev.message]);
+    }, true);
+
+    window.addEventListener('unhandledrejection', function(ev){
+      const r = ev.reason;
+      put(3, 'Promise', [r && r.stack ? r.stack : String(r)]);
+    });
+  }
+
+  function install(){
+    hook();
+    try{
+      const q = new URLSearchParams(location.search);
+      if (q.has('debug')) setLevel(parseInt(q.get('debug'), 10));
+    }catch(e){}
+    put(1, '启动', ['MDUI ' + (window.mdui ? '已加载' : '未加载'), '日志级别 = ' + lv,
+      '控制台可用 smsLog() / smsLog.errors() / smsLog.copy() / smsLog.level(4)']);
+  }
+
+  return {
+    err:   function(tag){
+      if (lv < 3) return;
+      return put(3, tag, Array.prototype.slice.call(arguments, 1));
+    },
+    warn:  function(tag){
+      if (lv < 2) return;
+      return put(2, tag, Array.prototype.slice.call(arguments, 1));
+    },
+    info:  function(tag){
+      if (lv < 2) return;
+      return put(1, tag, Array.prototype.slice.call(arguments, 1));
+    },
+    debug: function(tag){ return put(0, tag, Array.prototype.slice.call(arguments, 1)); },
+    errors: errors,
+    level: setLevel,
+    copy: copy,
+    dump: dump,
+    all: function(){ return buf.slice(); },
+    clear: function(){ buf.length = 0; paint(); },
+    install: install
+  };
+})();
+window.smsLog = LOG;
+
+/* =========================================================
+   应用
+   ========================================================= */
+const API = 'api.php';
+const DEMO = /(\?|&)demo\b/.test(location.search);
+
+const ui = { auto: true, interval: 15, theme: 'auto', token: '', search: '', filter: 'all', sel: null };
+const state = { items: [], groups: [], outbox: [], loaded: false };
+
+const $ = function(id){ return document.getElementById(id); };
+
+function esc(s){
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+/* 验证码只做低调加粗，不做卡片、不弹提示 */
+function highlight(html){
+  return html.replace(/([0-9]{4,8})/g, '<span class="otp">$1</span>');
+}
+function snack(msg){
+  const sb = $('sb');
+  if (!sb) return;
+  sb.textContent = msg;
+  sb.open = true;
+}
+
+function saveToken(v){
+  try{ localStorage.setItem('smsui.token', v); }catch(e){}
+  try{ localStorage.setItem('smsui.pref', JSON.stringify({ auto: ui.auto, interval: ui.interval, theme: ui.theme })); }catch(e){}
+}
+function askToken(first){
+  $('dlgToken').open = true;
+  setTimeout(function(){ try{ $('tfToken').focus(); }catch(e){} }, 200);
+}
+$('btnTokenCancel').addEventListener('click', function(){ $('dlgToken').open = false; });
+$('btnTokenOk').addEventListener('click', function(){
+  const v = String($('tfToken').value || '').trim();
+  if (!v){ $('tfToken').focus(); return; }
+  saveToken(v);
+  ui.token = v;
+  $('dlgToken').open = false;
+  load(false);
+});
+
+function redactHead(u){ return String(u).replace(/([?&]token=)([^&]*)/gi, function(m, p){ return p + '****'; }); }
+
+async function fetchWrap(url, opt){
+  const t0 = (performance && performance.now) ? performance.now() : Date.now();
+  try{
+    const r = await fetch(url, opt);
+    const ms = Math.round(((performance && performance.now) ? performance.now() : Date.now()) - t0);
+    const txt = await r.text();
+    LOG.debug('HTTP', [redactHead(url).slice(0, 90), r.status, ms + 'ms',
+      txt.length > 240 ? txt.slice(0, 240) + '…' : txt]);
+    return { ok: r.ok, status: r.status, text: txt };
+  }catch(e){
+    LOG.err('HTTP', [redactHead(url).slice(0, 90), e && e.message]);
+    return { ok: false, status: 0, text: '' };
+  }
+}
+
+async function api(action, opt){
+  opt = opt || {};
+  const base = API + '?action=' + action + (ui.token ? '&token=' + encodeURIComponent(ui.token) : '');
+  if (opt.data){
+    const body = Object.assign({}, opt.data || {});
+    return await apiPost(base, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+  }
+  return await apiGet(base);
+}
+async function apiGet(u){ return JSON.parse((await fetchWrap(u)).text || '{}'); }
+async function apiPost(u, o){ return JSON.parse((await fetchWrap(u, o)).text || '{}'); }
+
+function allItems(){ return DEMO ? (window.__demo || []) : state.items; }
+function byTimeDesc(a, b){ return String(b.time || '').localeCompare(String(a.time || '')); }
+function groupItems(items){
+  const m = new Map();
+  items.forEach(function(x){
+    const key = x.type === 'msg' ? '__system' : (x.from || '未知');
+    if (!m.has(key)) m.set(key, { key: key, arr: [] });
+    m.get(key).arr.push(x);
+  });
+  return Array.from(m.values()).sort(function(a, b){ return byTimeDesc(a.arr[0], b.arr[0]); });
+}
+
+async function load(silent){
+  const r = await api('list');
+  state.items = r.items || [];
+  state.outbox = r.outbox || [];
+  state.loaded = true;
+  if (!silent) LOG.info('拉取', [state.items.length + ' 条短信', state.outbox.length + ' 条待发']);
+  renderAll();
+}
+
+function match(x){
+  const q = ui.search.trim().toLowerCase();
+  if (q){
+    const hay = String(x.content || '') + ' ' + String(x.from || '');
+    if (hay.toLowerCase().indexOf(q) < 0) return false;
+  }
+  const f = ui.filter;
+  if (f === 'sms') return x.type === 'sms';
+  if (f === 'call') return x.type === 'call';
+  if (f === 'sys') return x.type === 'msg';
+  return true;
+}
+function threadName(key){ return key === '__system' ? '系统通知' : key; }
+
+function emptyBox(icon, t, s){
+  const d = document.createElement('div');
+  d.className = 'empty';
+  /* 外层 .empty 负责居中，内层再来一张毛玻璃卡片，两层才有「浮在墙上」的观感 */
+  d.innerHTML = '<div class="empty-card">'
+    + '<mdui-icon name="' + icon + '"></mdui-icon>'
+    + '<div class="t">' + esc(t) + '</div>'
+    + (s ? '<div class="s">' + esc(s) + '</div>' : '')
+    + '</div>';
+  return d;
+}
+
+/* ---------- 头像：Google Messages 用照片，这里退化为号码末两位色块 ---------- */
+const AV_COLORS = ['#1e8e3e','#1565c0','#c2185b','#ef6c00','#5e35b1','#00838f','#455a64','#7cb342'];
+function hashOf(s){
+  return String(s).split('').reduce(function(a, ch){ return (a * 31 + ch.charCodeAt(0)) % 9973; }, 7);
+}
+/* 列表项左侧的小圆头像 */
+function newAvatar(key){
+  const box = document.createElement('div');
+  box.className = 'av';
+  if (key === '__system'){
+    box.classList.add('mdui-icon');
+    box.innerHTML = '<mdui-icon name="settings"></mdui-icon>';
+    return box;
+  }
+  box.style.background = AV_COLORS[hashOf(key) % AV_COLORS.length];
+  box.textContent = String(key).slice(-2);
+  return box;
+}
+/* 会话顶栏那个 40dp 的头像：直接画在占位元素上，别再往里嵌一层 */
+function paintAvatar(host, key){
+  host.className = 'dt-av';
+  if (key === '__system'){
+    host.classList.add('mdui-icon');
+    host.innerHTML = '<mdui-icon name="settings"></mdui-icon>';
+    return;
+  }
+  host.classList.remove('mdui-icon');
+  host.textContent = String(key).slice(-2);
+  host.style.background = AV_COLORS[hashOf(key) % AV_COLORS.length];
+}
+function shortNum(k){
+  const s = String(k || '');
+  return s.length > 11 ? s.slice(0, 6) + '…' + s.slice(-3) : s;
+}
+
+function renderList(){
+  const el = $('threadList');
+  el.innerHTML = '';
+  const rows = allItems().filter(match);
+  state.groups = groupItems(rows);
+
+  if (!state.groups.length){
+    el.appendChild(emptyBox('search_off',
+      ui.search || ui.filter !== 'all' ? '没有匹配的会话' : '还没有短信',
+      ui.search || ui.filter !== 'all' ? '换个关键词或筛选条件' : '新消息会直接出现在这里'));
+    $('appTitle').textContent = '信息';
+    return;
+  }
+
+  state.groups.forEach(function(g){
+    const last = g.arr[0];
+    const it = g.key === '__system' ? g.arr.filter(function(x){ return x.type === 'msg'; }) : g.arr;
+    const unread = it.filter(function(x){ return x.type === 'sms' && !x.read; }).length;
+
+    const row = document.createElement('div');
+    row.className = 'conv' + (state.sel === g.key ? ' sel' : '') + (unread ? ' cv-unread' : '');
+    row.dataset.key = g.key;                 /* 右键菜单靠这个认出是哪一路会话 */
+    row.appendChild(newAvatar(g.key));
+
+    const body = document.createElement('div');
+    body.className = 'cv-body';
+
+    const r1 = document.createElement('div');
+    r1.className = 'cv-row1';
+    const nm = document.createElement('span');
+    nm.className = 'cv-name';
+    nm.textContent = threadName(g.key);
+    const tm = document.createElement('span');
+    tm.className = 'cv-time';
+    tm.textContent = String(last.time || '').slice(11, 16);
+    r1.appendChild(nm); r1.appendChild(tm);
+
+    const r2 = document.createElement('div');
+    r2.className = 'cv-row2';
+    const pv = document.createElement('span');
+    pv.className = 'cv-pv';
+    pv.textContent = (last.type === 'call' ? '来电：' : '') + String(last.content || '');
+    r2.appendChild(pv);
+
+    /* 有还没发出去的短信，就在预览后面挂个时钟，跟 Google 的「待发送」一个意思 */
+    const pend = (state.outbox || []).filter(function(o){ return o.num === g.key && o.status !== 'sent'; });
+    if (pend.length){
+      const st = document.createElement('span');
+      st.className = 'cv-state';
+      st.innerHTML = '<mdui-icon name="schedule"></mdui-icon>待发送';
+      r2.appendChild(st);
+    }
+    body.appendChild(r1); body.appendChild(r2);
+    row.appendChild(body);
+    row.addEventListener('click', function(){ openThread(g.key); });
+    el.appendChild(row);
+  });
+
+  let badge = allItems().filter(function(x){ return x.type === 'sms'; }).length;
+  $('appTitle').textContent = badge ? '信息 (' + badge + ')' : '信息';
+}
+
+/* ---------- 详情：把 outbox 回执并进消息流 ---------- */
+function threadRows(key){
+  const rows = allItems().filter(function(x){
+    return key === '__system' ? x.type === 'msg' : x.from === key;
+  });
+  (state.outbox || []).forEach(function(o){
+    if (o.num !== key) return;
+    if (o.status === 'sent') rows.push({ time: o.sent_ts || o.time || '', content: o.content, type: 'sms', dir: 'out' });
+    else rows.push({ time: '', content: o.content, type: 'sms', dir: 'out', pending: true });
+  });
+  return rows.sort(byTimeDesc);
+}
+
+function dayLabel(dstr){
+  const p = String(dstr).split('-');
+  if (p.length < 3) return dstr;
+  const dd = new Date(+p[0], +p[1] - 1, +p[2]);
+  const pad = function(n){ return String(n).padStart(2, '0'); };
+  const d = new Date(), y = new Date(Date.now() - 86400000);
+  const same = function(x){ return x.getFullYear() + '-' + pad(x.getMonth() + 1) + '-' + pad(x.getDate()); };
+  if (same(dd) === same(d)) return '今天';
+  if (same(dd) === same(y)) return '昨天';
+  return p[0] + '年' + (+p[1]) + '月' + (+p[2]) + '日';
+}
+
+function renderThread(){
+  const el = $('msgs');
+  const key = state.sel;
+  el.innerHTML = '';
+
+  const av = $('dtAvatar');
+  if (key) paintAvatar(av, key);
+  else{
+    av.className = 'dt-av mdui-icon';
+    av.innerHTML = '<mdui-icon name="chat"></mdui-icon>';
+  }
+  $('dtTitle').textContent = key ? shortNum(threadName(key)) : '会话';
+
+  if (!key){
+    el.appendChild(emptyBox('chat', '选择会话', '从左边点一个会话，就能在这儿看短信、直接回复'));
+    setCompose(false);
+    return;
+  }
+  const rows = threadRows(key);
+  if (!rows.length){
+    el.appendChild(emptyBox('chat_bubble_outline', '还没有消息', '在下面输入内容，点右下角箭头就发出去'));
+    setCompose(true);
+    return;
+  }
+  setCompose(true);
+
+  /* threadRows 是按时间倒序（最新在最前）的交集，
+     聊天窗口要「旧的在上、新的在下」，所以渲染前翻回来，
+     否则滚到底部看到的是最旧那条，跟 Google Messages 正好相反 */
+  /* day 要定义在回调外面，放里面等于每条消息都当成新的一天，
+     同一天会插出好几个「今天」分隔（这个坑只有多消息截图才看得出来） */
+  let day = '';
+  rows.slice().reverse().forEach(function(x){
+    const d = String(x.time || '').slice(0, 10);
+    if (d && d !== day){
+      day = d;
+      const sp = document.createElement('div');
+      sp.className = 'day';
+      sp.textContent = dayLabel(d);
+      el.appendChild(sp);
+    }
+    const b = document.createElement('div');
+    if (x.type === 'call'){
+      b.className = 'bubble sys';
+      b.innerHTML = '<mdui-icon name="call"></mdui-icon>' + esc(x.content || '来电')
+        + '<span class="tm">' + esc(String(x.time || '').slice(11, 16)) + '</span>';
+    }else{
+      b.className = 'bubble ' + (x.dir === 'out' ? 'out' : 'in') + (x.pending ? ' pending' : '');
+      b.innerHTML = highlight(esc(x.content || ''))
+        + '<span class="tm">' + (x.pending ? '待发送' : esc(String(x.time || '').slice(11, 16))) + '</span>';
+    }
+    /* 右键菜单要用的元数据：全文、idx（outbox 里的待发条没有 idx，删不了） */
+    b.dataset.txt = x.content || '';
+    if (x.idx != null && x.idx !== '') b.dataset.idx = x.idx;
+    el.appendChild(b);
+  });
+}
+
+/* ---------- 输入条：Google Messages 那根胶囊 ---------- */
+function setCompose(on){
+  document.body.classList.toggle('no-compose', !on);
+}
+function autoGrow(){
+  const t = $('tfBody');
+  if (!t) return;
+  /* 单行固定 44dp（Google Messages 那根胶囊就是固定高度），
+     只有内容真的换行了才一整个 line-height 往外顶，最多 6 行 */
+  t.style.height = '44px';
+  const lines = Math.ceil((t.scrollHeight - 22) / 22);   /* 减去上下 padding */
+  if (lines > 1) t.style.height = Math.min(44 + lines * 22, 154) + 'px';
+}
+function syncSend(){
+  const t = $('tfBody');
+  if (!t) return;
+  const s = $('btnSend');
+  if (s) s.classList.toggle('on', String(t.value).trim().length > 0);
+}
+$('tfBody').addEventListener('input', function(){ autoGrow(); syncSend(); });
+$('tfBody').addEventListener('keydown', function(e){
+  /* Google Messages：回车发出，Shift + 回车换行 */
+  if (e.key === 'Enter' && !e.shiftKey && !e.isComposing){ e.preventDefault(); doSend(); }
+});
+$('btnSend').addEventListener('click', doSend);
+
+function renderAll(){
+  renderList();
+  renderThread();
+}
+
+/* ---------- 会话内联切换（不新开页面） ---------- */
+function openThread(key){
+  state.sel = key;
+  document.body.classList.add('on-thread');
+  renderAll();
+  /* 新消息在底部，打开会话要滚到底（Google Messages 行为），不是停在最上面 */
+  requestAnimationFrame(function(){
+    const el = $('msgs');
+    if (el) el.scrollTop = el.scrollHeight;
+  });
+  /* 只在宽屏自动聚焦：手机上会白弹一个软键盘 */
+  if (window.innerWidth >= 600) setTimeout(function(){ const t = $('tfBody'); if (t) t.focus(); }, 60);
+}
+function backToList(){
+  state.sel = null;
+  document.body.classList.remove('on-thread');
+  renderAll();
+}
+$('btnBack').addEventListener('click', backToList);
+
+/* ---------- 确认框 ---------- */
+function confirmBox(head, body, yesTxt){
+  return new Promise(function(resolve){
+    $('dlgConfirm').setAttribute('headline', head);
+    $('cfBody').textContent = body;
+    $('cfYes').textContent = yesTxt || '确定';
+    $('dlgConfirm').open = true;
+    const off = function(v){
+      $('cfYes').removeEventListener('click', ok);
+      $('cfNo').removeEventListener('click', no);
+      $('dlgConfirm').removeEventListener('cancel', no);
+      resolve(v);
+    };
+    const ok = function(){ $('dlgConfirm').open = false; off(true); };
+    const no = function(){ $('dlgConfirm').open = false; off(false); };
+    $('cfYes').addEventListener('click', ok);
+    $('cfNo').addEventListener('click', no);
+    $('dlgConfirm').addEventListener('cancel', no);
+  });
+}
+
+async function delThread(key){
+  key = key || state.sel;            /* 右键菜单可以直接指定会话，不必先点开 */
+  if (!key) return;
+  if (DEMO){
+    window.__demo = allItems().filter(function(x){
+      return key === '__system' ? x.type !== 'msg' : x.from !== key;
+    });
+    backToList();
+    snack('演示模式：会话已删除');
+    return;
+  }
+  const yes = await confirmBox('删除这个会话？', threadName(key) + ' 的全部消息会被移除。', '删除');
+  if (!yes) return;
+  const r = await api('del_thread', { method: 'POST', data: { from: key === '__system' ? null : key } });
+  if (r && r.ok){ snack('会话已删除'); backToList(); load(true); }
+  else snack('删除失败');
+}
+
+async function clearAll(){
+  if (DEMO){ state.items = []; renderAll(); snack('演示模式：已清空'); return; }
+  const yes = await confirmBox('清空全部短信？', '所有记录都会被删除，此操作不可撤销。', '清空');
+  if (!yes) return;
+  const r = await api('clear', { method: 'POST', data: {} });
+  if (r && r.ok){ snack('已清空'); backToList(); load(true); }
+  else snack('清空失败');
+}
+
+/* ---------- 发送：默认发给当前打开的会话 ---------- */
+function clearChat(){
+  const t = $('tfBody');
+  if (!t) return;
+  t.value = '';
+  autoGrow();
+  syncSend();
+}
+
+async function doSend(){
+  const key = state.sel;
+  const body = String($('tfBody').value || '').trim();
+  if (!key){ snack('先从左边选一个会话，或者按右下角 + 新建一个'); return; }
+  if (!body){ $('tfBody').focus(); return; }
+  return sendMsg(key, body, true);
+}
+
+async function sendMsg(num, body, fromChat){
+  if (!num || !body){ snack('号码和内容都要填'); return false; }
+  LOG.info('发送', ['入队', num, body.slice(0, 30)]);
+  if (DEMO){
+    state.outbox = [{ num: num, content: body, status: 'sent' }];
+    if (fromChat) clearChat();
+    renderAll();
+    snack('已发出（演示）');
+    return true;
+  }
+  const r = await api('send', { method: 'POST', data: { num: num, content: body } });
+  if (r && r.ok){
+    if (fromChat) clearChat();
+    const pend = (r.outbox || []).filter(function(o){ return o.num === num && o.status !== 'sent'; });
+    snack(pend.length
+      ? '已入队，模块会在 60 秒内发出（队列 ' + pend.length + ' 条）'
+      : '已入队，模块会在 60 秒内发出');
+    load(true);
+    return true;
+  }
+  snack('入队失败：' + (r && r.msg ? r.msg : '未知错误'));
+  return false;
+}
+
+/* 指令短信：sms##号码##内容 —— 用手机主动发一条指令给模块 */
+function cmdText(){
+  const num = state.sel;
+  const txt = String($('tfBody').value || '').trim();
+  if (!num){ snack('先打开一个会话，指令里要带号码白名单'); return; }
+  if (!txt){ snack('先写点内容，指令短信会把原样发出去'); return; }
+  let ok = false;
+  try{
+    const ta = document.createElement('textarea');
+    ta.value = 'sms##' + num + '##' + txt;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    ok = document.execCommand('copy');
+    document.body.removeChild(ta);
+  }catch(e){}
+  snack(ok ? '指令短信已复制，用手机发到 SIM 卡即可' : '复制失败，请手动选中复制');
+}
+
+/* ---------- 新建会话 ---------- */
+function openNew(){
+  $('tfNewNum').value = '';
+  $('tfNewBody').value = '';
+  $('dlgNew').open = true;
+  setTimeout(function(){ try{ $('tfNewNum').focus(); }catch(e){} }, 200);
+}
+$('btnCompose').addEventListener('click', openNew);
+$('btnCompose2').addEventListener('click', openNew);
+$('btnNewCancel').addEventListener('click', function(){ $('dlgNew').open = false; });
+$('btnNewOk').addEventListener('click', async function(){
+  const num = String($('tfNewNum').value || '').trim();
+  const body = String($('tfNewBody').value || '').trim();
+  if (!num || !body){ $('dlgNew').focus(); return; }
+  $('dlgNew').open = false;
+  await sendMsg(num, body, false);
+});
+
+/* ---------- CSV ---------- */
+function csvCell(s){
+  return '"' + String(s == null ? '' : s).replace(/"/g, '""').replace(/\r?\n/g, '\\n') + '"';
+}
+function exportCSV(scope, forceKey){
+  
+  const key = forceKey || state.sel;
+  const rows = scope === 'thread' ? allItems().filter(function(x){
+    return key && (key === '__system' ? x.type === 'msg' : x.from === key);
+  }) : allItems();
+  if (!rows.length){ snack('没有可导出的内容'); return; }
+  const out = ['﻿时间,类型,发送方,内容']
+    .concat(rows.map(function(x){
+      return [csvCell(x.time), csvCell(x.type), csvCell(x.from), csvCell(x.content)].join(',');
+    })).join('\r\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([out], { type: 'text/csv;charset=utf-8' }));
+  a.download = 'sms-' + new Date().toISOString().slice(0, 19).replace(/[:T]/g, '') + '.csv';
+  a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000);
+  snack('已导出 ' + rows.length + ' 条');
+}
+
+
+let timer = null, busy = false;
+function setupTimer(){
+  clearInterval(timer);
+  timer = null;
+  if (ui.auto && ui.interval > 0) timer = setInterval(refreshTick, ui.interval * 1000);
+}
+
+
+async function refreshHealth(){
+  const dot = $('devDot'), name = $('devName'), sub = $('devSub'), stat = $('devStat');
+  try{
+    const r = await fetch('heartbeat.php', { cache: 'no-store' });
+    if (!r.ok) throw new Error('http ' + r.status);
+    const st = await r.json();
+    if (!st || !st.last){
+      name.textContent = 'Air780EPM';
+      sub.textContent = '等待设备心跳…';
+      stat.textContent = '-- dBm';
+      dot.className = 'dev-dot off';
+      return;
+    }
+    const diff = (Date.now() - new Date(String(st.last).replace(/-/g, '/')).getTime()) / 1000;
+    const online = diff < 600;                       
+    dot.className = 'dev-dot ' + (online ? (diff < 150 ? 'on' : 'warn') : 'off');
+    const rsrp = parseInt(st.rsrp, 10) || 0;
+    const vbat = st.vbat ? (parseFloat(st.vbat).toFixed(2) + ' V') : '--';
+    name.textContent = (st.model || 'Air780EPM') + (st.num ? ' · ' + st.num : '');
+    sub.textContent = online ? ('在线 · 信号 ' + rsrp + ' dBm') : ('掉线 ' + Math.floor(diff / 60) + ' 分钟前');
+    stat.textContent = (rsrp ? rsrp + ' dBm' : '--') + ' · ' + vbat;
+  }catch(e){
+    name.textContent = '设备状态读取失败';
+    sub.textContent = String(e && e.message ? e.message : e);
+    dot.className = 'dev-dot off';
+  }
+}
+setInterval(refreshHealth, 30000);
+refreshHealth();
+async function refreshTick(){
+  if (busy) return;
+  busy = true;
+  try{ await load(true); }catch(e){}
+  busy = false;
+}
+async function doRefresh(){
+  if (busy){ snack('正在刷新'); return; }
+  await refreshTick();
+  snack('已刷新');
+}
+
+
+function applyTheme(t){
+  try{
+    if (window.mdui && mdui.setTheme) mdui.setTheme(t);
+    else document.documentElement.className = 'mdui-theme-' + t;
+  }catch(e){
+    document.documentElement.className = 'mdui-theme-' + t;
+  }
+}
+
+
+function saveUI(){
+  try{
+    localStorage.setItem('smsui.pref', JSON.stringify({ auto: ui.auto, interval: ui.interval, theme: ui.theme }));
+  }catch(e){}
+}
+function loadUI(){
+  try{
+    const p = JSON.parse(localStorage.getItem('smsui.pref') || '{}');
+    ui.auto = p.auto !== false;
+    ui.interval = p.interval || 15;
+    ui.theme = p.theme || 'auto';
+  }catch(e){}
+  try{ ui.token = localStorage.getItem('smsui.token') || ''; }catch(e){}
+}
+
+
+function demoData(){
+  const now = new Date();
+  const fmt = function(d){
+    const p = function(n){ return String(n).padStart(2, '0'); };
+    return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate())
+      + ' ' + p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds());
+  };
+  const prev = new Date(now.getTime() - 1000 * 60 * 60 * 5);
+  window.__demo = [
+    { idx: 12, time: fmt(now),  type: 'sms', from: '10683695402417570', content: '【哔哩哔哩】' + Math.floor(100000 + Math.random() * 899999) + ' 短信登录验证码，5 分钟内有效，请勿泄露。' },
+    { idx: 11, time: fmt(prev), type: 'sms', from: '10683695402417570', content: '【哔哩哔哩】881029 短信登录验证码，5 分钟内有效。' },
+    { idx: 11, time: fmt(new Date(now.getTime() - 1000 * 60 * 14)), type: 'sms', dir: 'out', from: '10683695402417570', content: '887120 验证码已收到，谢谢' },
+    { idx: 11, time: fmt(new Date(now.getTime() - 1000 * 60 * 22)), type: 'sms', dir: 'out', from: '10683695402417570', content: '刚才那单帮我改下收货地址' },
+    { idx: 11, time: fmt(new Date(now.getTime() - 1000 * 60 * 40)), type: 'sms', dir: 'out', from: '10683695402417570', content: '在的？' },
+    { idx: 10, time: fmt(prev), type: 'call', from: '10086', content: '来电' },
+    { idx: 9,  time: fmt(prev), type: 'msg',  from: '',      content: '开机通知' },
+    { idx: 7,  time: fmt(prev), type: 'sms', from: '10690507302060569', content: '【中国移动】您本月账单已出，请登录查询。' }
+  ];
+}
+
+
+function bind(){
+  
+  $('btnTheme').addEventListener('click', function(){
+    const order = ['auto', 'light', 'dark'];
+    const cur = order.indexOf(ui.theme);
+    ui.theme = order[(cur < 0 ? 0 : cur + 1) % 3];
+    applyTheme(ui.theme);
+    saveUI();
+    snack('主题：' + ({ auto: '跟随系统', light: '浅色', dark: '深色' }[ui.theme]));
+  });
+  
+  $('menuMore').addEventListener('click', function(e){
+    if (e.target.closest('mdui-menu-item')) $('ddMore').open = false;
+  });
+  
+  var ddMore = $('ddMore');
+  
+  function ddCloseAll(e){
+    document.querySelectorAll('mdui-dropdown').forEach(function(d){
+      if (!d.open) return;
+      var t = e.target;
+      if (t && t.closest && t.closest('mdui-dropdown')) return;   
+      d.open = false;
+    });
+  }
+  document.addEventListener('click', ddCloseAll);
+  document.addEventListener('keydown', function(e){
+    if (e.key !== 'Escape') return;
+    document.querySelectorAll('mdui-dropdown').forEach(function(d){
+      if (d.open) d.open = false;
+    });
+  });
+
+  
+  function showApi(){
+    var dir = location.pathname.replace(/\/index\.html$/, '/');
+    if (dir.charAt(dir.length - 1) !== '/') dir = dir + '/';
+    $('tfApiUrl').value = location.origin + dir + 'api.php?action=latest';
+    $('tfApiUrl').readOnly = true;      
+    $('dlgApi').open = true;
+  }
+  $('btnApiCopy').addEventListener('click', function(){
+    var inp = $('tfApiUrl');
+    var done = function(){ snack('接口地址已复制'); };
+    inp.select();
+    
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(inp.value).then(done, function(){
+        try { document.execCommand('copy'); } catch (e) {}
+        done();
+      });
+    } else {
+      try { document.execCommand('copy'); } catch (e) {}
+      done();
+    }
+  });
+  $('btnApiClose').addEventListener('click', function(){ $('dlgApi').open = false; });
+
+  
+  var MENU_MAP = {
+    miRefresh: function(){ doRefresh(); },
+    miCsv:   function(){ exportCSV('all'); },
+    miClear: clearAll,
+    miLog:   function(){ LOG.copy(); },
+    miApi:   showApi
+  };
+  $('menuMore').querySelectorAll('mdui-menu-item').forEach(function(mi){
+    mi.addEventListener('click', function(){
+      $('ddMore').open = false;
+      if (MENU_MAP[mi.id]) MENU_MAP[mi.id]();
+    });
+  });
+
+  
+  const ctx = { el: null, kind: '', key: '', idx: '', txt: '' };
+  const MENU_W = 240, ITEM_H = 48;          
+
+  function ctxMark(el){
+    ctxClear();
+    ctx.el = el || null;
+    if (ctx.el) ctx.el.classList.add('ctx-target');
+  }
+  function ctxClear(){
+    document.querySelectorAll('.ctx-target').forEach(function(n){
+      n.classList.remove('ctx-target');
+    });
+    ctx.el = null;
+  }
+  function ctxShow(ids){
+    
+    const all = ['ctxConvOpen', 'ctxConvCopyNum', 'ctxConvCopyLast', 'ctxConvExport',
+                 'ctxMsgCopy', 'ctxMsgCode', 'ctxMsgQuote', 'ctxConvDel', 'ctxMsgDel'];
+    all.forEach(function(id){ $(id).hidden = ids.indexOf(id) < 0; });
+    $('ctxDiv').hidden = ids.indexOf('ctxConvDel') < 0 && ids.indexOf('ctxMsgDel') < 0;
+  }
+
+  function copyText(txt){
+    if (!txt){ snack('没有可复制的内容'); return; }
+    function legacy(){
+      try{
+        const ta = document.createElement('textarea');
+        ta.value = txt;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        snack('已复制');
+      }catch(e){ snack('复制失败，请手动选中复制'); }
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(function(){ snack('已复制'); }, legacy);
+    }else legacy();
+  }
+
+  
+  function otpOf(s){
+    const m = String(s || '').match(/[0-9]{4,8}/);
+    return m ? m[0] : '';
+  }
+  function lastOf(key){
+    const rows = allItems().filter(function(x){
+      return key === '__system' ? x.type === 'msg' : x.from === key;
+    }).sort(byTimeDesc);
+    return rows.length ? rows[0] : null;
+  }
+
+  
+  async function delMsg(idx){
+    if (DEMO){
+      
+      window.__demo = allItems().filter(function(x){ return String(x.idx) !== String(idx); });
+      renderAll();
+      snack('演示模式：这条已删除');   
+      return;
+    }
+    const r = await apiGet(API + '?action=del&idx=' + encodeURIComponent(idx)
+      + (ui.token ? '&token=' + encodeURIComponent(ui.token) : ''));
+    if (r && r.ok){ snack('这条已删除'); load(true); renderAll(); }
+    else snack('删除失败');
+  }
+
+  function menuIds(){
+    const ids = [];
+    $('menuCtx').querySelectorAll('mdui-menu-item').forEach(function(mi){
+      if (!mi.hidden) ids.push(mi.id);
+    });
+    return ids;
+  }
+  
+  function openCtx(x, y){
+    const dd = $('ddCtx');
+    const h = (menuIds().length + 1) * ITEM_H + 16;
+    const ver = (y + h + 16 > window.innerHeight) ? 'top' : 'bottom';
+    const hor = (x + MENU_W + 16 > window.innerWidth) ? 'end' : 'start';
+    dd.setAttribute('placement', ver + '-' + hor);
+    const a = $('ctxAnchor');
+    a.style.left = x + 'px';
+    a.style.top = y + 'px';
+    
+    dd.open = false;
+    requestAnimationFrame(function(){ dd.open = true; });
+  }
+
+  function prepConv(row, x, y){
+    const key = row.dataset.key || '';
+    ctx.kind = 'conv'; ctx.key = key; ctx.txt = ''; ctx.idx = '';
+    const last = lastOf(key);
+    $('ctxTitle').textContent = threadName(key);
+    const ids = ['ctxConvOpen', 'ctxConvCopyLast', 'ctxConvExport', 'ctxConvDel'];
+    if (key !== '__system') ids.splice(1, 0, 'ctxConvCopyNum');   
+    $('ctxConvCopyLast').disabled = !last;
+    ctxShow(ids);
+    ctxMark(row);
+    openCtx(x, y);
+  }
+  function prepMsg(b, x, y){
+    ctx.kind = 'msg'; ctx.idx = b.dataset.idx || ''; ctx.txt = b.dataset.txt || ''; ctx.key = '';
+    const code = otpOf(ctx.txt);
+    $('ctxTitle').textContent = String(ctx.txt).slice(0, 16) + (ctx.txt.length > 16 ? '…' : '');
+    $('ctxMsgCode').textContent = code ? '复制验证码（' + code + '）' : '复制验证码';
+    const ids = ['ctxMsgCopy', 'ctxMsgQuote']
+      .concat(code ? ['ctxMsgCode'] : [])                        
+      .concat(ctx.idx ? ['ctxMsgDel'] : []);                     
+    ctxShow(ids);
+    ctxMark(b);
+    openCtx(x, y);
+  }
+
+  
+  document.addEventListener('contextmenu', function(e){
+    const t = e.target;
+    if (!t || !t.closest) return;
+    const row = t.closest('#threadList .conv[data-key]');
+    const b = t.closest('#msgs .bubble');
+    if (!row && !b){                      
+      if ($('ddCtx').open) $('ddCtx').open = false;
+      ctxClear();
+      return;
+    }
+    e.preventDefault();                   
+    if (row) prepConv(row, e.clientX, e.clientY);
+    else prepMsg(b, e.clientX, e.clientY);
+  }, true);
+
+  const CTX_MAP = {
+    ctxConvOpen:     function(){ openThread(ctx.key); },
+    ctxConvCopyNum:  function(){ copyText(ctx.key); },
+    ctxConvCopyLast: function(){
+      const last = lastOf(ctx.key);
+      copyText(last ? last.content : '');
+    },
+    ctxConvExport:   function(){ exportCSV('thread', ctx.key); },
+    ctxConvDel:      function(){ delThread(ctx.key); },
+    ctxMsgCopy:      function(){ copyText(ctx.txt); },
+    ctxMsgCode:      function(){ copyText(otpOf(ctx.txt)); },
+    ctxMsgQuote:     function(){
+      if (!ctx.txt){ snack('这条没有内容'); return; }
+      if (!state.sel){ snack('先打开一个会话再引用'); return; }
+      const t = $('tfBody');
+      t.value = String(t.value || '').trim();
+      t.value = (t.value ? t.value + '\n' : '') + '「' + ctx.txt + '」' + '\n';
+      if (window.innerWidth >= 600) t.focus();
+      autoGrow(); syncSend();
+    },
+    ctxMsgDel: function(){ delMsg(ctx.idx); }
+  };
+  $('menuCtx').querySelectorAll('mdui-menu-item').forEach(function(mi){
+    mi.addEventListener('click', function(){
+      if (mi.disabled || mi.hidden) return;                 
+      if (CTX_MAP[mi.id]) CTX_MAP[mi.id]();
+    });
+  });
+
+  
+  new MutationObserver(function(){
+    if (!$('ddCtx').open) ctxClear();
+  }).observe($('ddCtx'), { attributes: true, attributeFilter: ['open'] });
+  $('ddCtx').addEventListener('close', ctxClear);
+
+  
+  $('btnNav').addEventListener('click', function(){ $('drawer').open = !$('drawer').open; });
+  $('btnDrawerClose').addEventListener('click', function(){ $('drawer').open = false; });
+  $('swAuto').addEventListener('change', function(){
+    ui.auto = $('swAuto').checked;
+    saveUI();
+    setupTimer();
+    snack('自动刷新：' + (ui.auto ? '开' : '关'));
+  });
+  $('selInt').addEventListener('change', function(){
+    ui.interval = parseInt($('selInt').value, 10) || 0;
+    saveUI();
+    setupTimer();
+    snack('刷新间隔：' + (ui.interval ? ui.interval + ' 秒' : '手动'));
+  });
+  $('selTheme').addEventListener('change', function(){
+    ui.theme = $('selTheme').value;
+    applyTheme(ui.theme);
+    saveUI();
+  });
+  $('btnExportDrawer').addEventListener('click', function(){ $('drawer').open = false; exportCSV('all'); });
+  $('btnClearDrawer').addEventListener('click', function(){ $('drawer').open = false; clearAll(); });
+
+  
+  $('chips').addEventListener('click', function(e){
+    const chip = e.target.closest('mdui-chip');
+    if (!chip) return;
+    $('chips').querySelectorAll('mdui-chip').forEach(function(c){ c.selected = false; });
+    chip.selected = true;
+    const names = ['全部', '短信', '来电', '系统'];
+    const i = names.indexOf(chip.textContent.trim());
+    ui.filter = i >= 0 ? ['all', 'sms', 'call', 'sys'][i] : 'all';
+    renderList();
+  });
+
+  
+  $('btnSearchClose').addEventListener('click', closeSearch);
+  function closeSearch(){
+    ui.search = '';
+    $('tfSearch').value = '';
+    $('searchHead').hidden = true;
+    $('listHead').hidden = false;
+    renderList();
+  }
+  $('tfSearch').addEventListener('input', function(){
+    ui.search = this.value || '';
+    renderList();
+  });
+  $('btnSearch').addEventListener('click', openSearch);
+  function openSearch(){
+    $('listHead').hidden = true;
+    $('searchHead').hidden = false;
+    setTimeout(function(){ try{ $('tfSearch').focus(); }catch(e){} }, 60);
+  }
+
+  
+  $('btnExportThread').addEventListener('click', function(){ if (state.sel) exportCSV('thread'); });
+  $('btnDelThread').addEventListener('click', delThread);
+  $('btnCmd').addEventListener('click', cmdText);
+
+  
+  $('btnAttach').addEventListener('click', function(){
+    snack('这里是纯文本网关，附件请直接用手机发');
+  });
+  $('btnEmoji').addEventListener('click', function(){
+    const t = $('tfBody');
+    t.value = t.value + '🙂';
+    t.focus();
+    autoGrow(); syncSend();
+  });
+}
+
+
+function shortId(id){ return String(id || '').slice(-6); }
+
+function renderCtrlLog(){
+  const el = $('ctrlLog');
+  if (!el) return;
+  const items = (state.outbox || []).filter(function(o){ return o.type === 'cmd'; });
+  items.sort(function(a, b){ return String(b.ts || '').localeCompare(String(a.ts || '')); });
+  if (!items.length){ el.innerHTML = '<div class="dlg-note">暂无指令记录</div>'; return; }
+  el.innerHTML = '';
+  items.slice(0, 30).forEach(function(o){
+    const div = document.createElement('div');
+    const done = o.status === 'done';
+    div.className = 'ctrl-item ' + (done ? 'done' : 'pending');
+    const res = done ? (o.result || '(无回执)') : '执行中…';
+    div.innerHTML = '<div class="meta">' + esc(shortId(o.id)) + ' · ' + esc(o.cmd) +
+      ' · <span class="st">' + (done ? '已执行' : '待执行') + '</span>' +
+      (o.done_ts ? ' ' + esc(String(o.done_ts).slice(11)) : '') + '</div>' + esc(res);
+    el.appendChild(div);
+  });
+}
+
+function sendCmd(cmd){
+  cmd = String(cmd || '').trim();
+  if (!cmd) return;
+  if (!ui.token){ snack('请先填写 token'); return; }
+  api('cmd', { method: 'POST', data: { cmd: cmd } }).then(function(r){
+    if (r && r.ok){ snack('指令已下发：' + cmd); startCtrlPoll(); }
+    else snack('下发失败：' + (r && r.msg ? r.msg : '未知错误'));
+  });
+}
+
+let ctrlTimer = null;
+function startCtrlPoll(){
+  if (ctrlTimer) return;
+  ctrlTimer = setInterval(function(){
+    const d = $('dlgCtrl');
+    if (!d || !d.open){ stopCtrlPoll(); return; }
+    load(true).then(renderCtrlLog);
+  }, 2500);
+}
+function stopCtrlPoll(){
+  if (ctrlTimer){ clearInterval(ctrlTimer); ctrlTimer = null; }
+}
+
+function bindCtrl(){
+  $('btnCtrl').addEventListener('click', function(){
+    $('dlgCtrl').open = true;
+    renderCtrlLog();
+    startCtrlPoll();
+  });
+  $('btnCtrlClose').addEventListener('click', function(){ $('dlgCtrl').open = false; });
+  $('dlgCtrl').addEventListener('close', stopCtrlPoll);
+  $('btnCmdSend').addEventListener('click', function(){
+    const v = String($('tfCmd').value || '').trim();
+    if (!v){ snack('请输入指令'); return; }
+    sendCmd(v);
+    $('tfCmd').value = '';
+  });
+  document.querySelectorAll('#dlgCtrl .ctrl-grid mdui-button[data-cmd]').forEach(function(b){
+    b.addEventListener('click', function(){ sendCmd(b.getAttribute('data-cmd')); });
+  });
+}
+
+function init(){
+  loadUI();
+  applyTheme(ui.theme);
+  bind();
+  bindCtrl();
+  LOG.install();
+  $('swAuto').checked = ui.auto;
+  $('selInt').value = String(ui.interval);
+  $('selTheme').value = ui.theme;
+  setupTimer();
+  setCompose(false);          
+  
+  if (DEMO){ demoData(); renderAll(); }
+  else if (ui.token){ load(false); }
+  else { askToken(true); }
+
+  document.addEventListener('visibilitychange', function(){
+    if (!document.hidden && ui.auto) refreshTick();
+  });
+}
+init();
+</script>
+</body>
+</html>
