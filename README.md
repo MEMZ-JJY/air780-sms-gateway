@@ -70,5 +70,8 @@ python tools/enable_lite.py     # 配置 nginx /sms/lite 路由
 - 服务端 `api.php` 的 `latest` 接口免鉴权（仅返回短信，用于本地通知轮询）；写操作（`list`/`send`/`cmd` 等）需要 `token`。
 - 设备端 `system.ctrl` 白名单之外的号码无法下发 `##` 指令。
 
+## 未来
+未来可能会推出一键部署的脚本。
+
 ## 许可证
 [MIT](LICENSE)
