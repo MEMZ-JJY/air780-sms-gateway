@@ -1,5 +1,5 @@
-PROJECT = 'Air780EP_SMS'
-VERSION = '0.3.88'
+PROJECT = 'Air780E_SMS'
+VERSION = '0.0.01'
 
 log.setLevel(2)
 log.style(1)
@@ -220,6 +220,7 @@ sys.subscribe('IP_READY', function(...)
         string.format('电压 %s', model.vbat()),
         string.format('IMEI %s', model.imei()),
         string.format('手机号 %s', sim.num()),
+        --这个地方识别的是你的PLMN所以可能会有错误
         string.format('网络 %s', sim.com() or '已联网'),
         string.format('PLMN %s', sim.plmn()),
         string.format('IMSI %s', mobile.imsi()),
